@@ -1,24 +1,65 @@
 pip install pandas matplotlib seaborn
 
+import os
 import sys
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import requests
 from pathlib import Path
 
+def explain_headers(headers):
+    """
+    Use an AI model to contextualize dataset headers.
+    Requires an `AIPROXY_TOKEN` environment variable for authentication.
+    """
+    token = os.getenv("AIPROXY_TOKEN")
+    if not token:
+        raise EnvironmentError("AIPROXY_TOKEN environment variable not set.")
+
+    api_url = "https://api.openai.com/v1/completions"  # Replace with your AI proxy endpoint
+    prompt = f"Provide context and potential meanings for the following dataset headers: {', '.join(headers)}"
+    
+    headers_dict = {
+        "Authorization": f"Bearer {token}",
+        "Content-Type": "application/json",
+    }
+    payload = {
+        "model": "text-davinci-003",
+        "prompt": prompt,
+        "max_tokens": 300,
+        "temperature": 0.7,
+    }
+
+    response = requests.post(api_url, headers=headers_dict, json=payload)
+    response.raise_for_status()  # Raise error if API call fails
+
+    explanation = response.json().get("choices", [{}])[0].get("text", "").strip()
+    return explanation
+    
 def analyze_csv(file_path):
     # Load CSV
     data = pd.read_csv(file_path)
     report_lines = []
 
+    # Explain dataset headers
+    try:
+        header_context = explain_headers(data.columns)
+        report_lines.append("# Automated Data Analysis Report")
+        report_lines.append(f"### Dataset: {file_path}")
+        report_lines.append("## Contextualized Dataset Headers")
+        report_lines.append(header_context)
+    except Exception as e:
+        report_lines.append("## Contextualized Dataset Headers")
+        report_lines.append(f"Could not retrieve header context: {e}")
+    
     # General information
-    report_lines.append("# Automated Data Analysis Report")
-    report_lines.append(f"### Dataset: {file_path}")
+    report_lines.append(f"## Dataset Overview")
     report_lines.append(f"Number of rows: {data.shape[0]}")
     report_lines.append(f"Number of columns: {data.shape[1]}\n")
 
     # Column descriptions
-    report_lines.append("## Dataset Overview")
+    report_lines.append("### Descriptive Statistics")
     report_lines.append(data.describe(include='all').transpose().to_markdown())
 
     # Visualization 1: Correlation Heatmap
