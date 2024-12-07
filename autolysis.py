@@ -1,4 +1,4 @@
-pip install pandas matplotlib seaborn
+!pip install pandas matplotlib seaborn
 
 import os
 import sys
