@@ -1,5 +1,3 @@
-!pip install pandas matplotlib seaborn
-
 import os
 import sys
 import pandas as pd
