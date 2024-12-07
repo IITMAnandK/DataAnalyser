@@ -69,7 +69,7 @@ def analyze_csv(file_path):
         plt.savefig(heatmap_path)
         plt.close()
         report_lines.append(f"![Correlation Heatmap]({heatmap_path})")
-
+    print(data.dtypes)
     # Visualization 2: Distribution of Numerical Columns
     numeric_columns = data.select_dtypes(include=['number']).columns
     for col in numeric_columns[:3]:  # Limit to 3 distributions
