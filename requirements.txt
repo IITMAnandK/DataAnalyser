@@ -1,5 +1,0 @@
-fastapi
-uvicorn
-pandas
-matplotlib
-seaborn
