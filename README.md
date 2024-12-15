@@ -20,7 +20,7 @@ This tool, powered by `autolysis.py`, provides automated data analysis for CSV f
 3. **Run the Analysis:**
     Format: uv run autolysis.py dataset.csv
    
-*Replace `your_data.csv` with the path to your CSV file.
+*Replace `dataset.csv` with the path to your CSV file.
 
 ## Output
 
