@@ -1,0 +1,17 @@
+httpx
+pandas
+tabulate
+seaborn
+matplotlib
+numpy
+scikit-learn
+chardet
+openai
+statsmodels
+networkx
+ipykernel
+requests
+geopandas
+scipy
+python-dotenv==1.0.0
+Pillow
