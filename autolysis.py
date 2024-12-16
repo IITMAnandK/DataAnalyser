@@ -297,7 +297,7 @@ def analyze_and_generate_output(csv_file):
 
     narrative = ""
     narrative_summary = []
-    narrative = explain_headers(data_info)
+    narrative = generate_story(data_info)
     if narrative is not None:
         narrative_summary.append("# Automated Data Analysis Report")
         narrative_summary.append(f"\n{narrative}")
@@ -1427,7 +1427,7 @@ def clustering_algorithm_selector(loadedcsv, inputprompt, selected_columns):
         return []
 
 # Function to send the data info to the LLM and request LLM to narrate story with provided analysis and findings
-def explain_headers(data_info):
+def generate_story(data_info):
     global img_cnt, max_img, API_KEY, API_URL
     '''
     Queries an LLM to explain the meaning of data headers (column names).
